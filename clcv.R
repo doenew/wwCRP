@@ -34,3 +34,4 @@ clcv <- function(matrix_data, w) {
   
   return(result_vector)
 }
+
