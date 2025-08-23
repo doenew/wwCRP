@@ -41,45 +41,45 @@ findindex <- function(Pz, w) {
   return(result_list)
 }
 
-# Create example design matrix with user-specified number of rows
-set.seed(123)
-n_rows <- 81  # User can change this value to specify the number of rows
-Pz <- matrix(sample(c("A", "B", "C"), n_rows * 3, replace = TRUE), nrow = n_rows, ncol = 3)
-colnames(Pz) <- c("Var1", "Var2", "Var3")
-rownames(Pz) <- paste0("Row", 1:n_rows)
-
-print("Design matrix:")
-print(Pz)
-
-# Using the function (including self)
-w <- 2
-result_include_self <- findindex(Pz, w)
-
-# Print results
-print("Results (including self):")
-for (i in 1:length(result_include_self)) {
-  cat(paste0("\nIdentical row information for row ", i, ":\n"))
-  if (nrow(result_include_self[[i]]) > 0) {
-    print(result_include_self[[i]])
-  } else {
-    cat("  No identical rows\n")
-  }
-}
-
-# Verify correctness of results
-cat("\nVerification (including self):\n")
-# All column combinations
-comb_list <- combn(3, 2, simplify = FALSE)
-for (k in 1:length(comb_list)) {
-  cols <- comb_list[[k]]
-  sub_mat <- Pz[, cols, drop = FALSE]
-  cat(paste0("Submatrix ", k, " (Columns", paste(cols, collapse = ","), "):\n"))
-  print(sub_mat)
-  
-  row_strings <- apply(sub_mat, 1, function(x) paste(x, collapse = "\r"))
-  for (i in 1:n_rows) {
-    identical_rows <- which(row_strings == row_strings[i])
-    cat(paste0("  Identical rows for row ", i, ": ", paste(identical_rows, collapse = ","), "\n"))
-  }
-  cat("\n")
-}
+# # Create example design matrix with user-specified number of rows
+# set.seed(123)
+# n_rows <- 81  # User can change this value to specify the number of rows
+# Pz <- matrix(sample(c("A", "B", "C"), n_rows * 3, replace = TRUE), nrow = n_rows, ncol = 3)
+# colnames(Pz) <- c("Var1", "Var2", "Var3")
+# rownames(Pz) <- paste0("Row", 1:n_rows)
+# 
+# print("Design matrix:")
+# print(Pz)
+# 
+# # Using the function (including self)
+# w <- 2
+# result_include_self <- findindex(Pz, w)
+# 
+# # Print results
+# print("Results (including self):")
+# for (i in 1:length(result_include_self)) {
+#   cat(paste0("\nIdentical row information for row ", i, ":\n"))
+#   if (nrow(result_include_self[[i]]) > 0) {
+#     print(result_include_self[[i]])
+#   } else {
+#     cat("  No identical rows\n")
+#   }
+# }
+# 
+# # Verify correctness of results
+# cat("\nVerification (including self):\n")
+# # All column combinations
+# comb_list <- combn(3, 2, simplify = FALSE)
+# for (k in 1:length(comb_list)) {
+#   cols <- comb_list[[k]]
+#   sub_mat <- Pz[, cols, drop = FALSE]
+#   cat(paste0("Submatrix ", k, " (Columns", paste(cols, collapse = ","), "):\n"))
+#   print(sub_mat)
+#   
+#   row_strings <- apply(sub_mat, 1, function(x) paste(x, collapse = "\r"))
+#   for (i in 1:n_rows) {
+#     identical_rows <- which(row_strings == row_strings[i])
+#     cat(paste0("  Identical rows for row ", i, ": ", paste(identical_rows, collapse = ","), "\n"))
+#   }
+#   cat("\n")
+# }
