@@ -1,31 +1,31 @@
 clcv <- function(matrix_data, w) {
-  # 检查输入有效性
+  # Check input validity
   if (!is.matrix(matrix_data) && !is.data.frame(matrix_data)) {
-    stop("输入必须是矩阵或数据框")
+    stop("Input must be a matrix or data frame")
   }
   
   if (w > ncol(matrix_data)) {
-    stop("w不能大于矩阵的列数")
+    stop("w cannot be greater than the number of columns of the matrix")
   }
   
-  # 获取所有可能的w列组合
+  # Get all possible combinations of w columns
   col_combinations <- combn(ncol(matrix_data), w, simplify = FALSE)
   
-  # 计算每种列组合的非重复水平组合数
+  # Calculate the number of distinct level combinations for each column combination
   result_vector <- sapply(col_combinations, function(cols) {
-    # 提取选定的列
+    # Extract the selected columns
     selected_cols <- matrix_data[, cols, drop = FALSE]
     
-    # 将每行转换为一个字符串表示的水平组合
+    # Convert each row to a string representing the level combination
     combinations <- apply(selected_cols, 1, function(row) {
       paste(row, collapse = "-")
     })
     
-    # 计算非重复组合数
+    # Calculate the number of distinct combinations
     length(unique(combinations))
   })
   
-  # 为向量添加名称（使用列名）
+  # Add names to the vector (using column names)
   if (!is.null(colnames(matrix_data))) {
     names(result_vector) <- sapply(col_combinations, function(cols) {
       paste(colnames(matrix_data)[cols], collapse = "-")
