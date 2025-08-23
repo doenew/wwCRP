@@ -111,7 +111,20 @@ base_design <- fac.design(
 Pz0=data.matrix(base_design)
 Pz = Pz0[,-4]
 
-D=wwCRPParallel(Pz,w = 3,ts=sobol(100000,2,scrambling = 3),lambda =0.9,avetheta = F,T = 300,ifparallel = T)
+D3=wwCRPParallel(Pz,w = 3,ts=sobol(100000,2,scrambling = 3),lambda =0.8,avetheta = F,T = 300,ifparallel = T)
+plot(D3,col=data.matrix(classify_rows(Pz)),pch=data.matrix(classify_rows(Pz))+10,cex=2,xlim=c(0,1),ylim=c(0,1))
+
+D2=wwCRPParallel(Pz,w = 2,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
+plot(D2,col=data.matrix(classify_rows(Pz[,1:2])),pch=data.matrix(classify_rows(Pz[,1:2]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+plot(D2,col=data.matrix(classify_rows(Pz[,c(1,3)])),pch=data.matrix(classify_rows(Pz[,c(1,3)]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+plot(D2,col=data.matrix(classify_rows(Pz[,2:3])),pch=data.matrix(classify_rows(Pz[,2:3]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+
+D1=wwCRPParallel(Pz,w =1,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
+for(i in 1:3)
+{
+  plot(D1,col=Pz[,i],pch=Pz[,i]+15,cex=2,xlim=c(0,1),ylim=c(0,1))
+}
+
 for (i in 1:2) {
   plot(D[Pz[,i]==1,],pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
   points(D[Pz[,i]==2,],pch=17,col=2,cex=2,xlim=c(0,1),ylim=c(0,1))
@@ -124,28 +137,6 @@ for (i in 3) {
   
   }
 
-for(k in 1:3){
-for(j in 1:2){
-  plot(D[Pz[,k]==j,],col=j*k,pch=j*k,cex=2,xlim=c(0,1),ylim=c(0,1))
-}}
-
-D2=wwCRPParallel(Pz,w = 2,ts=sobol(100000,2,scrambling = 3),lambda =1/2,avetheta = F,ifparallel = T)
-
-## partitioned by z_1 and z_2
-plot(D2[Pz[,1]==1&Pz[,2]==1,],pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
-for(j in 2:3){
-  plot(D2[Pz[,1]==1&Pz[,2]==j,],col=j,pch=j+15,cex=2,xlim=c(0,1),ylim=c(0,1))
-}
-
-for(i in 2:3){
-  for(j in 1:3){
-    plot(D2[Pz[,1]==i&Pz[,2]==j,],col=i+j,
-           pch=i+j+15,cex=2,xlim=c(0,1),ylim=c(0,1))
-  }
-}
-plot(D2,pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
-
-  
 
 
 
