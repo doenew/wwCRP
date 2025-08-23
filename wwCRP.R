@@ -10,6 +10,10 @@
 # T: maximum number of iterations
 # ifparallel: TRUE means to parallel update points in MM iterations
 
+# setwd("/correct/directory/") # If your source file reports an error, please use setwd()
+source("clcv.R") 
+source("findindex.R") 
+
 wwCRPParallel=function(Pz,ts,w=1,lambda=1/2,avetheta=TRUE,T=200,ifparallel=TRUE)
 { # Confirm the number of slices and the number of points in each slice
   n=nrow(Pz)   # the total number of representative points 
@@ -93,6 +97,8 @@ wwCRPParallel=function(Pz,ts,w=1,lambda=1/2,avetheta=TRUE,T=200,ifparallel=TRUE)
   return(Pn=Pn)
 }
 
+
+# Example
 library(randtoolbox)
 library(DoE.base)
 # 3 factors 2 levels  
@@ -140,6 +146,7 @@ for(i in 2:3){
 plot(D2,pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
 
   
+
 
 
 
