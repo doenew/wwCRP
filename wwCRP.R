@@ -98,44 +98,36 @@ wwCRPParallel=function(Pz,ts,w=1,lambda=1/2,avetheta=TRUE,T=200,ifparallel=TRUE)
 }
 
 
-# Example
-library(randtoolbox)
-library(DoE.base)
-# 3 factors 2 levels  
-base_design <- fac.design(
-  nfactors = 3,
-  nlevels = c(2,2,2),
-  replications = 15,
-  randomize = FALSE
-)
-Pz0=data.matrix(base_design)
-Pz = Pz0[,-4]
+# library(randtoolbox)
+# library(DoE.base)
+# # 3 factors 2 levels  
+# base_design <- fac.design(
+#   nfactors = 3,
+#   nlevels = c(2,2,2),
+#   replications = 15,
+#   randomize = FALSE
+# )
+# Pz0=data.matrix(base_design)
+# Pz = Pz0[,-4]
+# 
+# D3=wwCRPParallel(Pz,w = 3,ts=sobol(100000,2,scrambling = 3),lambda =0.8,avetheta = F,T = 300,ifparallel = T)
+# plot(D3,col=data.matrix(classify_rows(Pz)),pch=data.matrix(classify_rows(Pz))+10,cex=2,xlim=c(0,1),ylim=c(0,1))
+# 
+# D2=wwCRPParallel(Pz,w = 2,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
+# plot(D2,col=data.matrix(classify_rows(Pz[,1:2])),pch=data.matrix(classify_rows(Pz[,1:2]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+# plot(D2,col=data.matrix(classify_rows(Pz[,c(1,3)])),pch=data.matrix(classify_rows(Pz[,c(1,3)]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+# plot(D2,col=data.matrix(classify_rows(Pz[,2:3])),pch=data.matrix(classify_rows(Pz[,2:3]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
+# 
+# D1=wwCRPParallel(Pz,w =1,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
+# for(i in 1:3)
+# {
+#   plot(D1,col=Pz[,i],pch=Pz[,i]+15,cex=2,xlim=c(0,1),ylim=c(0,1))
+# }
 
-D3=wwCRPParallel(Pz,w = 3,ts=sobol(100000,2,scrambling = 3),lambda =0.8,avetheta = F,T = 300,ifparallel = T)
-plot(D3,col=data.matrix(classify_rows(Pz)),pch=data.matrix(classify_rows(Pz))+10,cex=2,xlim=c(0,1),ylim=c(0,1))
 
-D2=wwCRPParallel(Pz,w = 2,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
-plot(D2,col=data.matrix(classify_rows(Pz[,1:2])),pch=data.matrix(classify_rows(Pz[,1:2]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
-plot(D2,col=data.matrix(classify_rows(Pz[,c(1,3)])),pch=data.matrix(classify_rows(Pz[,c(1,3)]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
-plot(D2,col=data.matrix(classify_rows(Pz[,2:3])),pch=data.matrix(classify_rows(Pz[,2:3]))+13,cex=2,xlim=c(0,1),ylim=c(0,1))
 
-D1=wwCRPParallel(Pz,w =1,ts=sobol(100000,2,scrambling = 3),lambda =0.5,avetheta = F,T = 300,ifparallel = T)
-for(i in 1:3)
-{
-  plot(D1,col=Pz[,i],pch=Pz[,i]+15,cex=2,xlim=c(0,1),ylim=c(0,1))
-}
 
-for (i in 1:2) {
-  plot(D[Pz[,i]==1,],pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
-  points(D[Pz[,i]==2,],pch=17,col=2,cex=2,xlim=c(0,1),ylim=c(0,1))
-}
-for (i in 3) {
-  plot(D[Pz[,i]==1,],pch=16,cex=2,xlim=c(0,1),ylim=c(0,1))
-  points(D[Pz[,i]==2,],pch=17,col=2,cex=2,xlim=c(0,1),ylim=c(0,1))
-  points(D[Pz[,i]==3,],pch=15,col=3,cex=2,xlim=c(0,1),ylim=c(0,1))
-  points(D[Pz[,i]==4,],pch=18,col=4,cex=2,xlim=c(0,1),ylim=c(0,1))
-  
-  }
+
 
 
 
