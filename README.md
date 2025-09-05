@@ -28,3 +28,7 @@ necessary function in wwCRP.R, among each of the w variables selection, rows tha
  
 # findindex.R
  for row i, find_identical_rows_with_submatrix_include_self 
+
+# FFFMaxPro.jsl
+The JMP18 software script is used to generate FFFDS in a loop
+
