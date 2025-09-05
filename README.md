@@ -32,3 +32,8 @@ necessary function in wwCRP.R, among each of the w variables selection, rows tha
 # FFFMaxPro.jsl
 The JMP18 software script is used to generate FFFDS in a loop
 
+# ITM.R and InverseTransformMethod.R
+Algorithms 8.2.1 and 8.2.3 in Fang et al. 2018
+
+(Fang, K. T., Liu, M. Q., Qin, H. & Zhou, Y. D. (2018), Theory and Application of Uniform
+Experimental Designs, Springer, Singapore.)
