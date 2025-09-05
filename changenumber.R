@@ -1,6 +1,6 @@
 library(foreach)
 library(doParallel)
-library(DiceKriging)  # 确保加载DiceKriging包
+library(DiceKriging)  # Make sure to load the DiceKriging package
 library(DoE.base)
 
 ### y_3
@@ -71,21 +71,21 @@ base_design <- fac.design(
   randomize = FALSE
 )
 Pz0=data.matrix(base_design)
-Pz = Pz0[,-4]*2-3   # change the levels to -1 and 1
+Pz = Pz0[,-4]*2-3   # Change the levels to -1 and 1
 
-# 设置基础路径
+# Set base path
 base_path <- "J:/Marginally coupled mixture desgins/ex2small/"
 
-# 设置并行计算
+# Set up parallel computing
 cl <- makeCluster(detectCores() - 1)
 registerDoParallel(cl)
 
-# 导出必要的变量和函数到所有节点
+# Export necessary variables and functions to all nodes
 clusterExport(cl, c("base_path", "Pz", "Gibbs_l", "model_basic", "km", "predict.km"))
 
-# 并行计算
+# Parallel computation
 results <- foreach(kk = 1:50, .combine = 'rbind', .packages = c("DiceKriging")) %dopar% {
-  # 生成测试数据
+  # Generate test data
   testdata0 <- Gibbs_l(rep(0,3), rep(1,3), n = 18000)
   testdata <- cbind(testdata0$sample[10001:18000,], Pz[rep(1:8, times=1000),])
   Ytestdata <- apply(testdata, 1, model_basic)
@@ -95,7 +95,7 @@ results <- foreach(kk = 1:50, .combine = 'rbind', .packages = c("DiceKriging")) 
   timesn=2 # 2,4,8,12 for n=16,32,64,96############
   #################################################
   
-  # 读取和处理数据
+  # Read and process data
   fullD105 <- cbind(read.csv(paste0(base_path, "1wCDM0.5", kk, ".csv")), Pz[rep(1:8, times=timesn),])
   fullD205 <- cbind(read.csv(paste0(base_path, "2wCDM0.5", kk, ".csv")), Pz[rep(1:8, times=timesn),])
   fullD305 <- cbind(read.csv(paste0(base_path, "3wCDM0.8", kk, ".csv")), Pz[rep(1:8, times=timesn),])
@@ -111,7 +111,7 @@ results <- foreach(kk = 1:50, .combine = 'rbind', .packages = c("DiceKriging")) 
   fullFFFD <- cbind(FFFD0[,1:3], num_mat)
   colnames(fullFFFD) <- c("V1", "V2", "V3", "A", "B", "C")
 
-  # 计算MSPE
+  # Calculate MSPE
   calculate_mspe <- function(design_data, test_data, y_test) {
     y_design <- apply(design_data, 1, model_basic)
     design_model <- km(design = design_data, response = y_design)
@@ -119,7 +119,7 @@ results <- foreach(kk = 1:50, .combine = 'rbind', .packages = c("DiceKriging")) 
     mean((predictions - y_test)^2)
   }
   
-  # 为每个设计计算MSPE
+  # Calculate MSPE for each design
 #  fullD0MSPE <- calculate_mspe(fullD0, testdata, Ytestdata)
   fullD105MSPE <- calculate_mspe(fullD105, testdata, Ytestdata)
   fullD205MSPE <- calculate_mspe(fullD205, testdata, Ytestdata)
@@ -130,15 +130,15 @@ results <- foreach(kk = 1:50, .combine = 'rbind', .packages = c("DiceKriging")) 
   fullMPDMSPE  <- calculate_mspe(fullMPD, testdata, Ytestdata)
   fullFFFDMSPE <- calculate_mspe(fullFFFD, testdata, Ytestdata)
   
-  # 返回结果
+  # Return results
   c(fullD105MSPE, fullD205MSPE, fullD305MSPE, fullD108MSPE, 
     fullD208MSPE, fullD308MSPE, fullMPDMSPE, fullFFFDMSPE)
 }
 
-# 停止并行集群
+# Stop parallel cluster
 stopCluster(cl)
 
-# 提取结果
+# Extract results
 
 
 allfullD105MSPE <- results[,1]
@@ -150,7 +150,7 @@ allfullD308MSPE <- results[, 6]
 allfullMPDMSPE  <- results[, 7]
 allfullFFFDMSPE <- results[, 8]
 
-# 合并结果并绘制箱线图
+# Combine results and draw boxplot
 allfullMSPE <- cbind(
   
   allfullD105MSPE,
