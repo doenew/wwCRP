@@ -1,26 +1,26 @@
-﻿// JMP 18 批量空间填充设计生成脚本
-// 生成50个设计：3混料因子 + 1分类因子，70次试验
+// JMP 18 Batch Space Filling Design Generation Script
+// Generate 50 designs: 3 mixture factors + 2 categorical factor(2,5 levels), 50 runs
 
-// 设置保存路径（请修改为您的实际路径）
+// Set save path (please change to your actual path)
 savePath = "F:\\Marginally coupled mixture desgins\\ex10\\";
 
-// 创建保存目录（如果不存在）
+// Create save directory (if it does not exist)
 If(!Directory Exists(savePath),
     Create Directory(savePath);
-    Write("创建目录: " || savePath);
+    Write("Created directory: " || savePath);
 );
 
-// 基础种子（确保设计可重现）
+// Base seed (to ensure design reproducibility)
 baseSeed = 209334380;
 
-// 批量生成50个设计
+// Batch generate 50 designs
 For(i = 1, i <= 50, i++,
     Try(
-        // 设置唯一随机种子（基于基础种子+i）
+        // Set unique random seed (based on base seed + i)
         currentSeed = baseSeed + i;
         Random Reset(currentSeed);
         
-        // 创建空间填充设计（移除响应变量Y）
+        // Create space filling design (remove response variable Y)
         doeObj = DOE(
 	Space Filling Design,
 	{Add Response( Maximize, "Y", ., ., . ),
@@ -30,42 +30,42 @@ For(i = 1, i <= 50, i++,
 	Add Factor( Categorical, {"L1", "L2"}, "X4", 0 ),
 	Add Factor( Categorical, {"L1", "L2", "L3", "L4", "L5"}, "X5", 0 ),
 	 FFF Optimality Criterion( MaxPro ),
-	Space Filling Design Type( Fast Flexible Filling, 100 ), Simulate Responses( 0 )}
+	Space Filling Design Type( Fast Flexible Filling, 50 ), Simulate Responses( 0 )}
 );
 
         
-        // 获取设计表
+        // Get design table
         designDt = doeObj << Make Table;
         
-        // 移除Y列（如果存在）
+        // Remove Y column (if exists)
         If(N Col(designDt) > 5 & Contains(designDt << Get Column Names, "Y"),
             designDt << Delete Columns("Y");
         );
         
-        // 保存为CSV
+        // Save as CSV
         csvName = savePath || "FFFD" || Char(i) || ".csv";
         designDt << Save(csvName, CSV("Write column names", "Overwrite"));
         
-        // 关闭设计表
+        // Close design table
         designDt << Close Window(No Save);
         
-        // 显示进度
-        Write("已生成: FFFD" || Char(i) || ".csv (Seed: " || Char(currentSeed) || ")\n");
+        // Show progress
+        Write("Generated: FFFD" || Char(i) || ".csv (Seed: " || Char(currentSeed) || ")\n");
     ,
-        // 错误处理
+        // Error handling
         Show(Exception_msg);
-        Write("设计 " || Char(i) || " 生成失败: " || Exception_msg);
+        Write("Design " || Char(i) || " generation failed: " || Exception_msg);
         
     );
 );
 
-// 完成提示
-Show("50个空间填充设计已成功生成!");
-New Window("完成",
+// Completion message
+Show("50 space filling designs successfully generated!");
+New Window("Complete",
     V List Box(
-        Text Box("所有设计已保存到:"),
+        Text Box("All designs saved to:"),
         Text Box(savePath),
-        Text Box("文件名格式: FFF1.csv 到 FFF50.csv"),
-        Button Box("确定")
+        Text Box("File name format: FFF1.csv to FFF50.csv"),
+        Button Box("OK")
     )
 );
