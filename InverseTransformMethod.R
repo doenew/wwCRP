@@ -1,5 +1,5 @@
-# 产生有上下界约束的混料均匀设计
-print("ITM:条件分布逆变换法产生有上下界约束的混料均匀设计")
+# Generate a uniform mixing design with upper and lower bound constraints
+print("ITM: Inverse Transformation of Conditional Distribution Method for Uniform Mixing Design with Upper and Lower Bound Constraints ")
 ITM=function(u,a,b) 
 {
   n=nrow(u)
@@ -26,3 +26,4 @@ ITM=function(u,a,b)
   
   return(y[,1:q])
 }
+
